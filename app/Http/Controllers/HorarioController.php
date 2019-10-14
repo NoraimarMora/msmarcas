@@ -39,10 +39,10 @@ class HorarioController extends Controller
     public function store(Request $request)
     {
         $horario = new Horario();
-        $horario->dia = $request->all()['dia'];
-        $horario->abierto = $request->all()['abierto'];
-        $horario->cerrado = $request->all()['cerrado'];
-        $horario->tienda_id = $request->all()['tienda_id'];
+        $horario->day = $request->all()['day'];
+        $horario->open = $request->all()['open'];
+        $horario->close = $request->all()['close'];
+        $horario->store_id = $request->all()['store_id'];
         $horario->save();
 
         return response()->json([
@@ -56,10 +56,10 @@ class HorarioController extends Controller
         try {
             $horario = Horario::findOrFail($horario_id);
 
-            $horario->dia = $request->all()['dia'];
-            $horario->abierto = $request->all()['abierto'];
-            $horario->cerrado = $request->all()['cerrado'];
-            $horario->tienda_id = $request->all()['tienda_id'];
+            $horario->day = $request->all()['day'];
+            $horario->open = $request->all()['open'];
+            $horario->close = $request->all()['close'];
+            $horario->store_id = $request->all()['store_id'];
             $horario->save();
 
             return response()->json([

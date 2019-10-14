@@ -35,7 +35,7 @@ class TiendaController extends Controller
 
     public function getActive()
     {
-        $tiendas = Tienda::where('activo', 1)->get();
+        $tiendas = Tienda::where('active', 1)->get();
 
         foreach($tiendas as $tienda) {
             $marca = $tienda->marca;
@@ -47,10 +47,10 @@ class TiendaController extends Controller
         ]);
     }
 
-    public function getById($tienda_id)
+    public function getById($store_id)
     {
         try {
-            $tienda = Tienda::findOrFail($tienda_id);
+            $tienda = Tienda::findOrFail($store_id);
 
             return response()->json([
                 'status' => 200,
@@ -65,10 +65,10 @@ class TiendaController extends Controller
         }        
     }
 
-    public function getCuentasByTiendaId($tienda_id)
+    public function getCuentasByTiendaId($store_id)
     {
         try {
-            $tienda = Tienda::findOrFail($tienda_id);
+            $tienda = Tienda::findOrFail($store_id);
 
             return response()->json([
                 'status' => 200,
@@ -82,10 +82,10 @@ class TiendaController extends Controller
         }
     }
 
-    public function getHorariosByTiendaId($tienda_id)
+    public function getHorariosByTiendaId($store_id)
     {
         try {
-            $tienda = Tienda::findOrFail($tienda_id);
+            $tienda = Tienda::findOrFail($store_id);
 
             return response()->json([
                 'status' => 200,
@@ -102,10 +102,10 @@ class TiendaController extends Controller
     public function store(Request $request)
     {
         $tienda = new Tienda();
-        $tienda->nombre = $request->all()['nombre'];
-        $tienda->latitud = $request->all()['latitud'];
-        $tienda->longitud = $request->all()['longitud'];
-        $tienda->marca_id = $request->all()['marca_id'];
+        $tienda->name = $request->all()['name'];
+        $tienda->latitude = $request->all()['latitude'];
+        $tienda->longitude = $request->all()['longitude'];
+        $tienda->brand_id = $request->all()['brand_id'];
         $tienda->save();
 
         return response()->json([
@@ -114,15 +114,15 @@ class TiendaController extends Controller
         ]);
     }
 
-    public function update(Request $request, $tienda_id)
+    public function update(Request $request, $store_id)
     {
         try {
-            $tienda = Tienda::findOrFail($tienda_id);
+            $tienda = Tienda::findOrFail($store_id);
 
-            $tienda->nombre = $request->all()['nombre'];
-            $tienda->latitud = $request->all()['latitud'];
-            $tienda->longitud = $request->all()['longitud'];
-            $tienda->marca_id = $request->all()['marca_id'];
+            $tienda->name = $request->all()['name'];
+            $tienda->latitude = $request->all()['latitude'];
+            $tienda->longitude = $request->all()['longitude'];
+            $tienda->brand_id = $request->all()['brand_id'];
             $tienda->save();
 
             return response()->json([
@@ -137,10 +137,10 @@ class TiendaController extends Controller
         }
     }
 
-    public function destroy($tienda_id)
+    public function destroy($store_id)
     {
         try {
-            $tienda = Tienda::findOrFail($tienda_id);
+            $tienda = Tienda::findOrFail($store_id);
 
             $tienda->delete();
 

@@ -8,7 +8,7 @@ class Marca extends Model
 {
     protected $table = "marcas";
 
-    protected $fillable = ['nombre', 'descripcion', 'logo_url', 'banner_url', 'activo'];
+    protected $fillable = ['name', 'description', 'logo_url', 'banner_url', 'active'];
 
     public function tiendas()
     {

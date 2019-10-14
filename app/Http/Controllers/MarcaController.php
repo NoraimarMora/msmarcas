@@ -36,7 +36,7 @@ class MarcaController extends Controller
 
     public function getActive()
     {
-        $marcas = Marca::where('activo', 1)->get();
+        $marcas = Marca::where('active', 1)->get();
 
         return response()->json([
             'status' => 200,
@@ -44,10 +44,10 @@ class MarcaController extends Controller
         ]);
     }
 
-    public function getById($marca_id)
+    public function getById($brand_id)
     {
         try {
-            $marca = Marca::findOrFail($marca_id);
+            $marca = Marca::findOrFail($brand_id);
 
             return response()->json([
                 'status' => 200,
@@ -62,10 +62,10 @@ class MarcaController extends Controller
         }        
     }
 
-    public function getTiendasByMarcaId($marca_id)
+    public function getTiendasByMarcaId($brand_id)
     {
         try {
-            $marca = Marca::findOrFail($marca_id);
+            $marca = Marca::findOrFail($brand_id);
 
             return response()->json([
                 'status' => 200,
@@ -82,11 +82,11 @@ class MarcaController extends Controller
     public function store(Request $request)
     {
         $marca = new Marca();
-        $marca->nombre = $request->all()['nombre'];
-        $marca->descripcion = $request->all()['descripcion'];
+        $marca->name = $request->all()['name'];
+        $marca->description = $request->all()['description'];
         $marca->logo_url = $request->all()['logo_url'];
         $marca->banner_url = $request->all()['banner_url'];
-        $marca->activo = $request->all()['activo'];
+        $marca->active = $request->all()['active'];
         $marca->save();
 
         return response()->json([
@@ -95,16 +95,16 @@ class MarcaController extends Controller
         ]);
     }
 
-    public function update(Request $request, $marca_id)
+    public function update(Request $request, $brand_id)
     {
         try {
-            $marca = Marca::findOrFail($marca_id);
+            $marca = Marca::findOrFail($brand_id);
 
-            $marca->nombre = $request->all()['nombre'];
-            $marca->descripcion = $request->all()['descripcion'];
+            $marca->name = $request->all()['name'];
+            $marca->description = $request->all()['description'];
             $marca->logo_url = $request->all()['logo_url'];
             $marca->banner_url = $request->all()['banner_url'];
-            $marca->activo = $request->all()['activo'];
+            $marca->active = $request->all()['active'];
             $marca->save();
 
             return response()->json([
@@ -119,10 +119,10 @@ class MarcaController extends Controller
         }
     }
 
-    public function destroy($marca_id)
+    public function destroy($brand_id)
     {
         try {
-            $marca = Marca::findOrFail($marca_id);
+            $marca = Marca::findOrFail($brand_id);
 
             $marca->delete();
 

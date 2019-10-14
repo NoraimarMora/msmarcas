@@ -8,7 +8,7 @@ class CuentaBancaria extends Model
 {
     protected $table = "cuentas_bancarias";
 
-    protected $fillable = ['beneficiario', 'tipo_dni', 'dni', 'num_cuenta', 'tipo_cuenta', 'tienda_id'];
+    protected $fillable = ['beneficiary', 'dni_type', 'dni', 'account_number', 'account_type', 'store_id'];
 
     public function tienda()
     {

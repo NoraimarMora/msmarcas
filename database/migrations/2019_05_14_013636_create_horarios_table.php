@@ -15,12 +15,12 @@ class CreateHorariosTable extends Migration
     {
         Schema::create('horarios', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('dia', [1, 2, 3, 4, 5, 6, 7]);
-            $table->integer('abierto');
-            $table->integer('cerrado');
-            $table->integer('tienda_id')->unsigned();
+            $table->enum('day', [1, 2, 3, 4, 5, 6, 7]);
+            $table->integer('open');
+            $table->integer('close');
+            $table->integer('store_id')->unsigned();
             
-            $table->foreign('tienda_id')
+            $table->foreign('store_id')
                 ->references('id')->on('tiendas')
                 ->onDelete('cascade');
         });

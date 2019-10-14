@@ -40,12 +40,12 @@ class CuentaBancariaController extends Controller
     public function store(Request $request)
     {
         $cuentaB = new CuentaBancaria();
-        $cuentaB->beneficiario = $request->all()['beneficiario'];
-        $cuentaB->tipo_dni = $request->all()['tipo_dni'];
+        $cuentaB->beneficiary = $request->all()['beneficiary'];
+        $cuentaB->dni_type = $request->all()['dni_type'];
         $cuentaB->dni = $request->all()['dni'];
-        $cuentaB->num_cuenta = $request->all()['num_cuenta'];
-        $cuentaB->tipo_cuenta = $request->all()['tipo_cuenta'];
-        $cuentaB->tienda_id = $request->all()['tienda_id'];
+        $cuentaB->account_number = $request->all()['account_number'];
+        $cuentaB->account_type = $request->all()['account_type'];
+        $cuentaB->store_id = $request->all()['store_id'];
         $cuentaB->save();
 
         return response()->json([
@@ -59,12 +59,12 @@ class CuentaBancariaController extends Controller
         try {
             $cuentaB = CuentaBancaria::findOrFail($cuentaB_id);
 
-            $cuentaB->beneficiario = $request->all()['beneficiario'];
-            $cuentaB->tipo_dni = $request->all()['tipo_dni'];
+            $cuentaB->beneficiary = $request->all()['beneficiary'];
+            $cuentaB->dni_type = $request->all()['dni_type'];
             $cuentaB->dni = $request->all()['dni'];
-            $cuentaB->num_cuenta = $request->all()['num_cuenta'];
-            $cuentaB->tipo_cuenta = $request->all()['tipo_cuenta'];
-            $cuentaB->tienda_id = $request->all()['tienda_id'];
+            $cuentaB->account_number = $request->all()['account_number'];
+            $cuentaB->account_type = $request->all()['account_type'];
+            $cuentaB->store_id = $request->all()['store_id'];
             $cuentaB->save();
 
             return response()->json([

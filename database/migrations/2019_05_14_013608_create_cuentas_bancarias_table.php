@@ -15,14 +15,14 @@ class CreateCuentasBancariasTable extends Migration
     {
         Schema::create('cuentas_bancarias', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('beneficiario');
-            $table->string('tipo_dni');
+            $table->string('beneficiary');
+            $table->string('dni_type');
             $table->string('dni');
-            $table->string('num_cuenta');
-            $table->string('tipo_cuenta');
-            $table->integer('tienda_id')->unsigned();
+            $table->string('account_number');
+            $table->string('account_type');
+            $table->integer('store_id')->unsigned();
             
-            $table->foreign('tienda_id')
+            $table->foreign('store_id')
                 ->references('id')->on('tiendas')
                 ->onDelete('cascade');
         });

@@ -15,11 +15,11 @@ class CreateMarcasTable extends Migration
     {
         Schema::create('marcas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre');
-            $table->string('descripcion')->nullable();
+            $table->string('name');
+            $table->string('description')->nullable();
             $table->string('logo_url')->nullable();
             $table->string('banner_url')->nullable();
-            $table->boolean('activo')->default(true);
+            $table->boolean('active')->default(true);
         });
     }
 

@@ -15,13 +15,13 @@ class CreateTiendasTable extends Migration
     {
         Schema::create('tiendas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre');
-            $table->double('latitud');
-            $table->double('longitud');
-            $table->boolean('activo')->default(true);
-            $table->integer('marca_id')->unsigned();
+            $table->string('name');
+            $table->double('latitude');
+            $table->double('longitude');
+            $table->boolean('active')->default(true);
+            $table->integer('brand_id')->unsigned();
 
-            $table->foreign('marca_id')
+            $table->foreign('brand_id')
                 ->references('id')->on('marcas')
                 ->onDelete('cascade');
         });
