@@ -18,9 +18,10 @@ class CreateHorariosTable extends Migration
             $table->enum('day', [1, 2, 3, 4, 5, 6, 7]);
             $table->integer('open');
             $table->integer('close');
-            $table->integer('store_id')->unsigned();
+            $table->integer('tienda_id')->unsigned();
+            $table->timestamps();
             
-            $table->foreign('store_id')
+            $table->foreign('tienda_id')
                 ->references('id')->on('tiendas')
                 ->onDelete('cascade');
         });

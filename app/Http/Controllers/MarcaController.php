@@ -25,12 +25,12 @@ class MarcaController extends Controller
         $marcas = Marca::all();
 
         foreach($marcas as $marca) {
-            $tiendas = $marca->tiendas;
+            $marca->tiendas;
         }
 
         return response()->json([
             'status' => 200,
-            'marcas' => $marcas
+            'brands' => $marcas
         ]);
     }
 
@@ -40,19 +40,19 @@ class MarcaController extends Controller
 
         return response()->json([
             'status' => 200,
-            'marcas' => $marcas
+            'brands' => $marcas
         ]);
     }
 
-    public function getById($brand_id)
+    public function getById($marca_id)
     {
         try {
-            $marca = Marca::findOrFail($brand_id);
+            $marca = Marca::findOrFail($marca_id);
+            $marca->tiendas;
 
             return response()->json([
                 'status' => 200,
-                'marca' => $marca,
-                'tiendas' => $marca->tiendas
+                'brand' => $marca
             ]);
         } catch(ModelNotFoundException $exception) {
             return response()->json([
@@ -62,14 +62,14 @@ class MarcaController extends Controller
         }        
     }
 
-    public function getTiendasByMarcaId($brand_id)
+    public function getTiendasByMarcaId($marca_id)
     {
         try {
-            $marca = Marca::findOrFail($brand_id);
+            $marca = Marca::findOrFail($marca_id);
 
             return response()->json([
                 'status' => 200,
-                'tiendas' => $marca->tiendas
+                'stores' => $marca->tiendas
             ]);
         } catch(ModelNotFoundException $exception) {
             return response()->json([
@@ -91,14 +91,14 @@ class MarcaController extends Controller
 
         return response()->json([
             'status' => 200,
-            'marca' => $marca
+            'brand' => $marca
         ]);
     }
 
-    public function update(Request $request, $brand_id)
+    public function update(Request $request, $marca_id)
     {
         try {
-            $marca = Marca::findOrFail($brand_id);
+            $marca = Marca::findOrFail($marca_id);
 
             $marca->name = $request->all()['name'];
             $marca->description = $request->all()['description'];
@@ -109,7 +109,7 @@ class MarcaController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'marca' => $marca
+                'brand' => $marca
             ]);
         } catch(ModelNotFoundException $exception) {
             return response()->json([
@@ -119,10 +119,10 @@ class MarcaController extends Controller
         }
     }
 
-    public function destroy($brand_id)
+    public function destroy($marca_id)
     {
         try {
-            $marca = Marca::findOrFail($brand_id);
+            $marca = Marca::findOrFail($marca_id);
 
             $marca->delete();
 

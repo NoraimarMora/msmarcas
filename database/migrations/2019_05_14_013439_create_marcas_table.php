@@ -20,6 +20,7 @@ class CreateMarcasTable extends Migration
             $table->string('logo_url')->nullable();
             $table->string('banner_url')->nullable();
             $table->boolean('active')->default(true);
+            $table->timestamps();
         });
     }
 

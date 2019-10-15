@@ -26,7 +26,7 @@ class CuentaBancariaController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'cuentaB' => $tienda
+                'account' => $cuentaB
             ]);
         } catch(ModelNotFoundException $exception) {
             return response()->json([
@@ -45,12 +45,12 @@ class CuentaBancariaController extends Controller
         $cuentaB->dni = $request->all()['dni'];
         $cuentaB->account_number = $request->all()['account_number'];
         $cuentaB->account_type = $request->all()['account_type'];
-        $cuentaB->store_id = $request->all()['store_id'];
+        $cuentaB->tienda_id = $request->all()['tienda_id'];
         $cuentaB->save();
 
         return response()->json([
             'status' => 200,
-            'cuentaB' => $cuentaB
+            'account' => $cuentaB
         ]);
     }
 
@@ -64,12 +64,12 @@ class CuentaBancariaController extends Controller
             $cuentaB->dni = $request->all()['dni'];
             $cuentaB->account_number = $request->all()['account_number'];
             $cuentaB->account_type = $request->all()['account_type'];
-            $cuentaB->store_id = $request->all()['store_id'];
+            $cuentaB->tienda_id = $request->all()['tienda_id'];
             $cuentaB->save();
 
             return response()->json([
                 'status' => 200,
-                'cuentaB' => $cuentaB
+                'account' => $cuentaB
             ]);
         } catch(ModelNotFoundException $exception) {
             return response()->json([

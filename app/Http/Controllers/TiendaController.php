@@ -24,12 +24,14 @@ class TiendaController extends Controller
         $tiendas = Tienda::all();
 
         foreach($tiendas as $tienda) {
-            $marca = $tienda->marca;
+            $tienda->marca;
+            $tienda->cuentasBancarias;
+            $tienda->horarios;
         }
 
         return response()->json([
             'status' => 200,
-            'tiendas' => $tiendas
+            'stores' => $tiendas
         ]);
     }
 
@@ -38,24 +40,28 @@ class TiendaController extends Controller
         $tiendas = Tienda::where('active', 1)->get();
 
         foreach($tiendas as $tienda) {
-            $marca = $tienda->marca;
+            $tienda->marca;
+            $tienda->cuentasBancarias;
+            $tienda->horarios;
         }
 
         return response()->json([
             'status' => 200,
-            'tiendas' => $tiendas
+            'stores' => $tiendas
         ]);
     }
 
-    public function getById($store_id)
+    public function getById($tienda_id)
     {
         try {
-            $tienda = Tienda::findOrFail($store_id);
+            $tienda = Tienda::findOrFail($tienda_id);
+            $tienda->marca;
+            $tienda->cuentasBancarias;
+            $tienda->horarios;
 
             return response()->json([
                 'status' => 200,
-                'tienda' => $tienda,
-                'marca' => $tienda->marca
+                'store' => $tienda
             ]);
         } catch(ModelNotFoundException $exception) {
             return response()->json([
@@ -65,14 +71,14 @@ class TiendaController extends Controller
         }        
     }
 
-    public function getCuentasByTiendaId($store_id)
+    public function getCuentasByTiendaId($tienda_id)
     {
         try {
-            $tienda = Tienda::findOrFail($store_id);
+            $tienda = Tienda::findOrFail($tienda_id);
 
             return response()->json([
                 'status' => 200,
-                'tienda' => $tienda->cuentasBancarias
+                'accounts' => $tienda->cuentasBancarias
             ]);
         } catch(ModelNotFoundException $exception) {
             return response()->json([
@@ -82,14 +88,14 @@ class TiendaController extends Controller
         }
     }
 
-    public function getHorariosByTiendaId($store_id)
+    public function getHorariosByTiendaId($tienda_id)
     {
         try {
-            $tienda = Tienda::findOrFail($store_id);
+            $tienda = Tienda::findOrFail($tienda_id);
 
             return response()->json([
                 'status' => 200,
-                'tienda' => $tienda->horarios
+                'schedules' => $tienda->horarios
             ]);
         } catch(ModelNotFoundException $exception) {
             return response()->json([
@@ -105,29 +111,29 @@ class TiendaController extends Controller
         $tienda->name = $request->all()['name'];
         $tienda->latitude = $request->all()['latitude'];
         $tienda->longitude = $request->all()['longitude'];
-        $tienda->brand_id = $request->all()['brand_id'];
+        $tienda->marca_id = $request->all()['marca_id'];
         $tienda->save();
 
         return response()->json([
             'status' => 200,
-            'tienda' => $tienda
+            'store' => $tienda
         ]);
     }
 
-    public function update(Request $request, $store_id)
+    public function update(Request $request, $tienda_id)
     {
         try {
-            $tienda = Tienda::findOrFail($store_id);
+            $tienda = Tienda::findOrFail($tienda_id);
 
             $tienda->name = $request->all()['name'];
             $tienda->latitude = $request->all()['latitude'];
             $tienda->longitude = $request->all()['longitude'];
-            $tienda->brand_id = $request->all()['brand_id'];
+            $tienda->marca_id = $request->all()['marca_id'];
             $tienda->save();
 
             return response()->json([
                 'status' => 200,
-                'tienda' => $tienda
+                'store' => $tienda
             ]);
         } catch(ModelNotFoundException $exception) {
             return response()->json([
@@ -137,10 +143,10 @@ class TiendaController extends Controller
         }
     }
 
-    public function destroy($store_id)
+    public function destroy($tienda_id)
     {
         try {
-            $tienda = Tienda::findOrFail($store_id);
+            $tienda = Tienda::findOrFail($tienda_id);
 
             $tienda->delete();
 

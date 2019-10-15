@@ -8,7 +8,7 @@ class Horario extends Model
 {
     protected $table = "horarios";
 
-    protected $fillable = ['day', 'open', 'close', 'store_id'];
+    protected $fillable = ['day', 'open', 'close', 'tienda_id'];
 
     public function tienda()
     {

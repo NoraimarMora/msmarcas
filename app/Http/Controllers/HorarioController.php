@@ -26,7 +26,7 @@ class HorarioController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'horario' => $horario
+                'schedule' => $horario
             ]);
         } catch(ModelNotFoundException $exception) {
             return response()->json([
@@ -42,12 +42,12 @@ class HorarioController extends Controller
         $horario->day = $request->all()['day'];
         $horario->open = $request->all()['open'];
         $horario->close = $request->all()['close'];
-        $horario->store_id = $request->all()['store_id'];
+        $horario->tienda_id = $request->all()['tienda_id'];
         $horario->save();
 
         return response()->json([
             'status' => 200,
-            'horario' => $horario
+            'schedule' => $horario
         ]);
     }
 
@@ -59,12 +59,12 @@ class HorarioController extends Controller
             $horario->day = $request->all()['day'];
             $horario->open = $request->all()['open'];
             $horario->close = $request->all()['close'];
-            $horario->store_id = $request->all()['store_id'];
+            $horario->tienda_id = $request->all()['tienda_id'];
             $horario->save();
 
             return response()->json([
                 'status' => 200,
-                'horario' => $horario
+                'schedule' => $horario
             ]);
         } catch(ModelNotFoundException $exception) {
             return response()->json([
@@ -83,7 +83,7 @@ class HorarioController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'message' => "Horario eliminada"
+                'message' => "Horario eliminado"
             ]);
         } catch(ModelNotFoundException $exception) {
             return response()->json([

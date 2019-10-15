@@ -20,9 +20,10 @@ class CreateCuentasBancariasTable extends Migration
             $table->string('dni');
             $table->string('account_number');
             $table->string('account_type');
-            $table->integer('store_id')->unsigned();
+            $table->integer('tienda_id')->unsigned();
+            $table->timestamps();
             
-            $table->foreign('store_id')
+            $table->foreign('tienda_id')
                 ->references('id')->on('tiendas')
                 ->onDelete('cascade');
         });

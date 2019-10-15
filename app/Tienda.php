@@ -8,7 +8,7 @@ class Tienda extends Model
 {
     protected $table = "tiendas";
 
-    protected $fillable = ['name', 'latitude', 'longitude', 'brand_id', 'active'];
+    protected $fillable = ['name', 'latitude', 'longitude', 'marca_id', 'active'];
 
     public function marca()
     {
