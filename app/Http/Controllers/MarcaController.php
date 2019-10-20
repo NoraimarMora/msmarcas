@@ -22,10 +22,34 @@ class MarcaController extends Controller
 
     public function getAll()
     {
-        $marcas = Marca::all();
+        $response = Marca::all();
+        $marcas = array();
 
-        foreach($marcas as $marca) {
-            $marca->tiendas;
+        foreach ($response as $marca) {
+            $tiendas = array();
+
+            foreach ($marca->tiendas as $tienda) {
+                array_push($tiendas, array(
+                    "id" => $tienda->id,
+                    "name" => $tienda->name,
+                    "latitude" => $tienda->latitude,
+                    "longitude" => $tienda->longitude,
+                    "active" => $tienda->active,
+                    "brand_id" => $tienda->marca_id,
+                    "date_created" => $tienda->created_at
+                ));
+            }
+
+            array_push($marcas, array(
+                "id" => $marca->id,
+                "name" => $marca->name,
+                "description" => $marca->description,
+                "logo_url" => $marca->logo_url,
+                "banner_url" => $marca->banner_url,
+                "active" => $marca->active,
+                "date_created" => $marca->created_at,
+                "stores" => $tiendas
+            ));
         }
 
         return response()->json([
@@ -36,7 +60,35 @@ class MarcaController extends Controller
 
     public function getActive()
     {
-        $marcas = Marca::where('active', 1)->get();
+        $response = Marca::where('active', 1)->get();
+        $marcas = array();
+
+        foreach ($response as $marca) {
+            $tiendas = array();
+
+            foreach ($marca->tiendas as $tienda) {
+                array_push($tiendas, array(
+                    "id" => $tienda->id,
+                    "name" => $tienda->name,
+                    "latitude" => $tienda->latitude,
+                    "longitude" => $tienda->longitude,
+                    "active" => $tienda->active,
+                    "brand_id" => $tienda->marca_id,
+                    "date_created" => $tienda->created_at
+                ));
+            }
+
+            array_push($marcas, array(
+                "id" => $marca->id,
+                "name" => $marca->name,
+                "description" => $marca->description,
+                "logo_url" => $marca->logo_url,
+                "banner_url" => $marca->banner_url,
+                "active" => $marca->active,
+                "date_created" => $marca->created_at,
+                "stores" => $tiendas
+            ));
+        }
 
         return response()->json([
             'status' => 200,
@@ -47,8 +99,31 @@ class MarcaController extends Controller
     public function getById($marca_id)
     {
         try {
-            $marca = Marca::findOrFail($marca_id);
-            $marca->tiendas;
+            $response = Marca::findOrFail($marca_id);
+            $tiendas = array();
+
+            foreach ($response->tiendas as $tienda) {
+                array_push($tiendas, array(
+                    "id" => $tienda->id,
+                    "name" => $tienda->name,
+                    "latitude" => $tienda->latitude,
+                    "longitude" => $tienda->longitude,
+                    "active" => $tienda->active,
+                    "brand_id" => $tienda->marca_id,
+                    "date_created" => $tienda->created_at
+                ));
+            }
+
+            $marca = array(
+                "id" => $response->id,
+                "name" => $response->name,
+                "description" => $response->description,
+                "logo_url" => $response->logo_url,
+                "banner_url" => $response->banner_url,
+                "active" => $response->active,
+                "date_created" => $response->created_at,
+                "stores" => $tiendas
+            );
 
             return response()->json([
                 'status' => 200,
@@ -66,10 +141,23 @@ class MarcaController extends Controller
     {
         try {
             $marca = Marca::findOrFail($marca_id);
+            $tiendas = array();
+
+            foreach ($marca->tiendas as $tienda) {
+                array_push($tiendas, array(
+                    "id" => $tienda->id,
+                    "name" => $tienda->name,
+                    "latitude" => $tienda->latitude,
+                    "longitude" => $tienda->longitude,
+                    "active" => $tienda->active,
+                    "brand_id" => $tienda->marca_id,
+                    "date_created" => $tienda->created_at
+                ));
+            }
 
             return response()->json([
                 'status' => 200,
-                'stores' => $marca->tiendas
+                'stores' => $tiendas
             ]);
         } catch(ModelNotFoundException $exception) {
             return response()->json([
@@ -81,13 +169,23 @@ class MarcaController extends Controller
 
     public function store(Request $request)
     {
-        $marca = new Marca();
-        $marca->name = $request->all()['name'];
-        $marca->description = $request->all()['description'];
-        $marca->logo_url = $request->all()['logo_url'];
-        $marca->banner_url = $request->all()['banner_url'];
-        $marca->active = $request->all()['active'];
-        $marca->save();
+        $response = new Marca();
+        $response->name = $request->all()['name'];
+        $response->description = $request->all()['description'];
+        $response->logo_url = $request->all()['logo_url'];
+        $response->banner_url = $request->all()['banner_url'];
+        $response->active = $request->all()['active'];
+        $response->save();
+        
+        $marca = array(
+            "id" => $response->id,
+            "name" => $response->name,
+            "description" => $response->description,
+            "logo_url" => $response->logo_url,
+            "banner_url" => $response->banner_url,
+            "active" => $response->active,
+            "date_created" => $response->created_at
+        );
 
         return response()->json([
             'status' => 200,
@@ -98,14 +196,24 @@ class MarcaController extends Controller
     public function update(Request $request, $marca_id)
     {
         try {
-            $marca = Marca::findOrFail($marca_id);
+            $response = Marca::findOrFail($marca_id);
 
-            $marca->name = $request->all()['name'];
-            $marca->description = $request->all()['description'];
-            $marca->logo_url = $request->all()['logo_url'];
-            $marca->banner_url = $request->all()['banner_url'];
-            $marca->active = $request->all()['active'];
-            $marca->save();
+            $response->name = $request->all()['name'];
+            $response->description = $request->all()['description'];
+            $response->logo_url = $request->all()['logo_url'];
+            $response->banner_url = $request->all()['banner_url'];
+            $response->active = $request->all()['active'];
+            $response->save();
+
+            $marca = array(
+                "id" => $response->id,
+                "name" => $response->name,
+                "description" => $response->description,
+                "logo_url" => $response->logo_url,
+                "banner_url" => $response->banner_url,
+                "active" => $response->active,
+                "date_created" => $response->created_at
+            );
 
             return response()->json([
                 'status' => 200,
@@ -122,13 +230,23 @@ class MarcaController extends Controller
     public function destroy($marca_id)
     {
         try {
-            $marca = Marca::findOrFail($marca_id);
+            $response = Marca::findOrFail($marca_id);
 
-            $marca->delete();
+            $marca = array(
+                "id" => $response->id,
+                "name" => $response->name,
+                "description" => $response->description,
+                "logo_url" => $response->logo_url,
+                "banner_url" => $response->banner_url,
+                "active" => $response->active,
+                "date_created" => $response->created_at
+            );
+
+            $response->delete();
 
             return response()->json([
                 'status' => 200,
-                'message' => "Marca eliminada"
+                'brand' => $marca
             ]);
         } catch(ModelNotFoundException $exception) {
             return response()->json([

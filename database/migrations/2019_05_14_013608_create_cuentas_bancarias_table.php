@@ -20,6 +20,7 @@ class CreateCuentasBancariasTable extends Migration
             $table->string('dni');
             $table->string('account_number');
             $table->string('account_type');
+            $table->string('bank');
             $table->integer('tienda_id')->unsigned();
             $table->timestamps();
             

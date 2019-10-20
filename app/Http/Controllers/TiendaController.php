@@ -21,12 +21,50 @@ class TiendaController extends Controller
 
     public function getAll()
     {
-        $tiendas = Tienda::all();
+        $response = Tienda::all();
+        $tiendas = array();
 
-        foreach($tiendas as $tienda) {
-            $tienda->marca;
-            $tienda->cuentasBancarias;
-            $tienda->horarios;
+        foreach($response as $tienda) {
+            $cuentas = array();
+            $horarios = array();
+
+            foreach ($tienda->cuentasBancarias as $cuenta) {
+                array_push($cuentas, array(
+                    "id" => $cuenta->id,
+                    "beneficiary" => $cuenta->beneficiary,
+                    "dni_type" => $cuenta->dni_type,
+                    "dni" => $cuenta->dni,
+                    "account_number" => $cuenta->account_number,
+                    "account_type" => $cuenta->account_type,
+                    "bank" => $cuenta->bank,
+                    "owner_id" => $cuenta->tienda_id,
+                    "date_created" => $cuenta->created_at,
+                ));
+            }
+
+            foreach ($tienda->horarios as $horario) {
+                array_push($horarios, array(
+                    "id" => $horario->id,
+                    "day" => $horario->day,
+                    "open" => $horario->open,
+                    "close" => $horario->close,
+                    "store_id" => $horario->tienda_id,
+                    "date_created" => $horario->created_at
+                ));
+            }
+
+            array_push($tiendas, array(
+                "id" => $tienda->id,
+                "name" => $tienda->name,
+                "latitude" => $tienda->latitude,
+                "longitude" => $tienda->longitude,
+                "active" => $tienda->active,
+                "brand_id" => $tienda->marca_id,
+                "date_created" => $tienda->created_at,
+                "brand" => $tienda->marca,
+                "accounts" => $cuentas,
+                "schedules" => $horarios
+            ));
         }
 
         return response()->json([
@@ -37,12 +75,50 @@ class TiendaController extends Controller
 
     public function getActive()
     {
-        $tiendas = Tienda::where('active', 1)->get();
+        $response = Tienda::where('active', 1)->get();
+        $tiendas = array();
 
-        foreach($tiendas as $tienda) {
-            $tienda->marca;
-            $tienda->cuentasBancarias;
-            $tienda->horarios;
+        foreach($response as $tienda) {
+            $cuentas = array();
+            $horarios = array();
+
+            foreach ($tienda->cuentasBancarias as $cuenta) {
+                array_push($cuentas, array(
+                    "id" => $cuenta->id,
+                    "beneficiary" => $cuenta->beneficiary,
+                    "dni_type" => $cuenta->dni_type,
+                    "dni" => $cuenta->dni,
+                    "account_number" => $cuenta->account_number,
+                    "account_type" => $cuenta->account_type,
+                    "bank" => $cuenta->bank,
+                    "owner_id" => $cuenta->tienda_id,
+                    "date_created" => $cuenta->created_at,
+                ));
+            }
+
+            foreach ($tienda->horarios as $horario) {
+                array_push($horarios, array(
+                    "id" => $horario->id,
+                    "day" => $horario->day,
+                    "open" => $horario->open,
+                    "close" => $horario->close,
+                    "store_id" => $horario->tienda_id,
+                    "date_created" => $horario->created_at
+                ));
+            }
+
+            array_push($tiendas, array(
+                "id" => $tienda->id,
+                "name" => $tienda->name,
+                "latitude" => $tienda->latitude,
+                "longitude" => $tienda->longitude,
+                "active" => $tienda->active,
+                "brand_id" => $tienda->marca_id,
+                "date_created" => $tienda->created_at,
+                "brand" => $tienda->marca,
+                "accounts" => $cuentas,
+                "schedules" => $horarios
+            ));
         }
 
         return response()->json([
@@ -54,10 +130,47 @@ class TiendaController extends Controller
     public function getById($tienda_id)
     {
         try {
-            $tienda = Tienda::findOrFail($tienda_id);
-            $tienda->marca;
-            $tienda->cuentasBancarias;
-            $tienda->horarios;
+            $response = Tienda::findOrFail($tienda_id);
+            $cuentas = array();
+            $horarios = array();
+
+            foreach ($response->cuentasBancarias as $cuenta) {
+                array_push($cuentas, array(
+                    "id" => $cuenta->id,
+                    "beneficiary" => $cuenta->beneficiary,
+                    "dni_type" => $cuenta->dni_type,
+                    "dni" => $cuenta->dni,
+                    "account_number" => $cuenta->account_number,
+                    "account_type" => $cuenta->account_type,
+                    "bank" => $cuenta->bank,
+                    "owner_id" => $cuenta->tienda_id,
+                    "date_created" => $cuenta->created_at,
+                ));
+            }
+
+            foreach ($response->horarios as $horario) {
+                array_push($horarios, array(
+                    "id" => $horario->id,
+                    "day" => $horario->day,
+                    "open" => $horario->open,
+                    "close" => $horario->close,
+                    "store_id" => $horario->tienda_id,
+                    "date_created" => $horario->created_at
+                ));
+            }
+
+            $tienda = array(
+                "id" => $response->id,
+                "name" => $response->name,
+                "latitude" => $response->latitude,
+                "longitude" => $response->longitude,
+                "active" => $response->active,
+                "brand_id" => $response->marca_id,
+                "date_created" => $response->created_at,
+                "brand" => $response->marca,
+                "accounts" => $cuentas,
+                "schedules" => $horarios
+            );
 
             return response()->json([
                 'status' => 200,
@@ -75,10 +188,25 @@ class TiendaController extends Controller
     {
         try {
             $tienda = Tienda::findOrFail($tienda_id);
+            $cuentas = array();
 
+            foreach ($tienda->cuentasBancarias as $cuenta) {
+                array_push($cuentas, array(
+                    "id" => $cuenta->id,
+                    "beneficiary" => $cuenta->beneficiary,
+                    "dni_type" => $cuenta->dni_type,
+                    "dni" => $cuenta->dni,
+                    "account_number" => $cuenta->account_number,
+                    "account_type" => $cuenta->account_type,
+                    "bank" => $cuenta->bank,
+                    "owner_id" => $cuenta->tienda_id,
+                    "date_created" => $cuenta->created_at,
+                ));
+            }
+            
             return response()->json([
                 'status' => 200,
-                'accounts' => $tienda->cuentasBancarias
+                'accounts' => $cuentas
             ]);
         } catch(ModelNotFoundException $exception) {
             return response()->json([
@@ -92,10 +220,22 @@ class TiendaController extends Controller
     {
         try {
             $tienda = Tienda::findOrFail($tienda_id);
+            $horarios = array();
+
+            foreach ($tienda->horarios as $horario) {
+                array_push($horarios, array(
+                    "id" => $horario->id,
+                    "day" => $horario->day,
+                    "open" => $horario->open,
+                    "close" => $horario->close,
+                    "store_id" => $horario->tienda_id,
+                    "date_created" => $horario->created_at
+                ));
+            }
 
             return response()->json([
                 'status' => 200,
-                'schedules' => $tienda->horarios
+                'schedules' => $horarios
             ]);
         } catch(ModelNotFoundException $exception) {
             return response()->json([
@@ -107,12 +247,22 @@ class TiendaController extends Controller
 
     public function store(Request $request)
     {
-        $tienda = new Tienda();
-        $tienda->name = $request->all()['name'];
-        $tienda->latitude = $request->all()['latitude'];
-        $tienda->longitude = $request->all()['longitude'];
-        $tienda->marca_id = $request->all()['marca_id'];
-        $tienda->save();
+        $response = new Tienda();
+        $response->name = $request->all()['name'];
+        $response->latitude = $request->all()['latitude'];
+        $response->longitude = $request->all()['longitude'];
+        $response->marca_id = $request->all()['marca_id'];
+        $response->save();
+
+        $tienda = array(
+            "id" => $response->id,
+            "name" => $response->name,
+            "latitude" => $response->latitude,
+            "longitude" => $response->longitude,
+            "active" => $response->active,
+            "brand_id" => $response->marca_id,
+            "date_created" => $response->created_at
+        );
 
         return response()->json([
             'status' => 200,
@@ -123,13 +273,23 @@ class TiendaController extends Controller
     public function update(Request $request, $tienda_id)
     {
         try {
-            $tienda = Tienda::findOrFail($tienda_id);
+            $response = Tienda::findOrFail($tienda_id);
 
-            $tienda->name = $request->all()['name'];
-            $tienda->latitude = $request->all()['latitude'];
-            $tienda->longitude = $request->all()['longitude'];
-            $tienda->marca_id = $request->all()['marca_id'];
-            $tienda->save();
+            $response->name = $request->all()['name'];
+            $response->latitude = $request->all()['latitude'];
+            $response->longitude = $request->all()['longitude'];
+            $response->marca_id = $request->all()['marca_id'];
+            $response->save();
+
+            $tienda = array(
+                "id" => $response->id,
+                "name" => $response->name,
+                "latitude" => $response->latitude,
+                "longitude" => $response->longitude,
+                "active" => $response->active,
+                "brand_id" => $response->marca_id,
+                "date_created" => $response->created_at
+            );
 
             return response()->json([
                 'status' => 200,
@@ -146,13 +306,23 @@ class TiendaController extends Controller
     public function destroy($tienda_id)
     {
         try {
-            $tienda = Tienda::findOrFail($tienda_id);
+            $response = Tienda::findOrFail($tienda_id);
 
-            $tienda->delete();
+            $tienda = array(
+                "id" => $response->id,
+                "name" => $response->name,
+                "latitude" => $response->latitude,
+                "longitude" => $response->longitude,
+                "active" => $response->active,
+                "brand_id" => $response->marca_id,
+                "date_created" => $response->created_at
+            );
+
+            $response->delete();
 
             return response()->json([
                 'status' => 200,
-                'message' => "Tienda eliminada"
+                'store' => $tienda
             ]);
         } catch(ModelNotFoundException $exception) {
             return response()->json([

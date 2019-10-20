@@ -22,7 +22,16 @@ class HorarioController extends Controller
     public function getById($horario_id)
     {
         try {
-            $horario = Horario::findOrFail($horario_id);
+            $response = Horario::findOrFail($horario_id);
+
+            $horario = array(
+                "id" => $response->id,
+                "day" => $response->day,
+                "open" => $response->open,
+                "close" => $response->close,
+                "store_id" => $response->tienda_id,
+                "date_created" => $response->created_at
+            );
 
             return response()->json([
                 'status' => 200,
@@ -38,12 +47,21 @@ class HorarioController extends Controller
 
     public function store(Request $request)
     {
-        $horario = new Horario();
-        $horario->day = $request->all()['day'];
-        $horario->open = $request->all()['open'];
-        $horario->close = $request->all()['close'];
-        $horario->tienda_id = $request->all()['tienda_id'];
-        $horario->save();
+        $response = new Horario();
+        $response->day = $request->all()['day'];
+        $response->open = $request->all()['open'];
+        $response->close = $request->all()['close'];
+        $response->tienda_id = $request->all()['tienda_id'];
+        $response->save();
+
+        $horario = array(
+            "id" => $response->id,
+            "day" => $response->day,
+            "open" => $response->open,
+            "close" => $response->close,
+            "store_id" => $response->tienda_id,
+            "date_created" => $response->created_at,
+        );
 
         return response()->json([
             'status' => 200,
@@ -54,13 +72,22 @@ class HorarioController extends Controller
     public function update(Request $request, $horario_id)
     {
         try {
-            $horario = Horario::findOrFail($horario_id);
+            $response = Horario::findOrFail($horario_id);
 
-            $horario->day = $request->all()['day'];
-            $horario->open = $request->all()['open'];
-            $horario->close = $request->all()['close'];
-            $horario->tienda_id = $request->all()['tienda_id'];
-            $horario->save();
+            $response->day = $request->all()['day'];
+            $response->open = $request->all()['open'];
+            $response->close = $request->all()['close'];
+            $response->tienda_id = $request->all()['tienda_id'];
+            $response->save();
+
+            $horario = array(
+                "id" => $response->id,
+                "day" => $response->day,
+                "open" => $response->open,
+                "close" => $response->close,
+                "store_id" => $response->tienda_id,
+                "date_created" => $response->created_at,
+            );
 
             return response()->json([
                 'status' => 200,
@@ -77,13 +104,22 @@ class HorarioController extends Controller
     public function destroy($horario_id)
     {
         try {
-            $horario = Horario::findOrFail($horario_id);
+            $response = Horario::findOrFail($horario_id);
 
-            $horario->delete();
+            $horario = array(
+                "id" => $response->id,
+                "day" => $response->day,
+                "open" => $response->open,
+                "close" => $response->close,
+                "store_id" => $response->tienda_id,
+                "date_created" => $response->created_at,
+            );
+
+            $response->delete();
 
             return response()->json([
                 'status' => 200,
-                'message' => "Horario eliminado"
+                'schedule' => $horario
             ]);
         } catch(ModelNotFoundException $exception) {
             return response()->json([
