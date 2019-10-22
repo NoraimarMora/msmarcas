@@ -264,6 +264,8 @@ class TiendaController extends Controller
             "date_created" => $response->created_at
         );
 
+        // TODO: publish `store-created`
+
         return response()->json([
             'status' => 200,
             'store' => $tienda
@@ -290,6 +292,8 @@ class TiendaController extends Controller
                 "brand_id" => $response->marca_id,
                 "date_created" => $response->created_at
             );
+
+            // TODO: publish `store-updated`
 
             return response()->json([
                 'status' => 200,
@@ -319,6 +323,8 @@ class TiendaController extends Controller
             );
 
             $response->delete();
+
+            // TODO: publish `store-deleted`
 
             return response()->json([
                 'status' => 200,

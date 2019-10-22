@@ -187,6 +187,8 @@ class MarcaController extends Controller
             "date_created" => $response->created_at
         );
 
+        // TODO: publish `brand-created`
+
         return response()->json([
             'status' => 200,
             'brand' => $marca
@@ -214,6 +216,8 @@ class MarcaController extends Controller
                 "active" => $response->active,
                 "date_created" => $response->created_at
             );
+
+            // TODO: publish `brand-updated`
 
             return response()->json([
                 'status' => 200,
@@ -243,6 +247,8 @@ class MarcaController extends Controller
             );
 
             $response->delete();
+
+            // TODO: publish `brand-deleted`
 
             return response()->json([
                 'status' => 200,
