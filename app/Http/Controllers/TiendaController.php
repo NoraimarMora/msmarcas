@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Tienda;
+use App\Broker;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -264,7 +265,9 @@ class TiendaController extends Controller
             "date_created" => $response->created_at
         );
 
-        // TODO: publish `store-created`
+        Broker::notify('store-created', array(
+          'store' => $tienda
+        ));
 
         return response()->json([
             'status' => 200,
@@ -293,7 +296,9 @@ class TiendaController extends Controller
                 "date_created" => $response->created_at
             );
 
-            // TODO: publish `store-updated`
+            Broker::notify('store-updated', array(
+              'store' => $tienda
+            ));
 
             return response()->json([
                 'status' => 200,
@@ -324,7 +329,9 @@ class TiendaController extends Controller
 
             $response->delete();
 
-            // TODO: publish `store-deleted`
+            Broker::notify('store-deleted', array(
+              'store' => $tienda
+            ));
 
             return response()->json([
                 'status' => 200,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Marca;
 use App\Tienda;
+use App\Broker;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -187,7 +188,9 @@ class MarcaController extends Controller
             "date_created" => $response->created_at
         );
 
-        // TODO: publish `brand-created`
+        Broker::notify('brand-created', array(
+          'brand' => $marca
+        ));
 
         return response()->json([
             'status' => 200,
@@ -217,7 +220,9 @@ class MarcaController extends Controller
                 "date_created" => $response->created_at
             );
 
-            // TODO: publish `brand-updated`
+            Broker::notify('brand-updated', array(
+              'brand' => $marca
+            ));
 
             return response()->json([
                 'status' => 200,
@@ -248,7 +253,9 @@ class MarcaController extends Controller
 
             $response->delete();
 
-            // TODO: publish `brand-deleted`
+            Broker::notify('brand-deleted', array(
+              'brand' => $marca
+            ));
 
             return response()->json([
                 'status' => 200,
