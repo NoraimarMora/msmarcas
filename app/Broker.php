@@ -22,7 +22,7 @@ class Broker {
     $msg = new AMQPMessage(json_encode($obj));
     $channel->basic_publish($msg, '', $queue);
 
-    echo "[PUBLISHER] - published " . json_encode($obj);
+    fwrite(fopen("broker_logs.txt", "w"), "[PUBLISHER] - published " . json_encode($obj));
 
     $connection->close();
     $channel->close();
