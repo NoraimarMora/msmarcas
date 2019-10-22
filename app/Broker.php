@@ -1,31 +1,34 @@
 <?php
 
-  namespace App;
+namespace App;
 
-  require_once __DIR__ . '/vendor/autoload.php';
-  use PhpAmqpLib\Connection\AMQPStreamConnection;
-  use PhpAmqpLib\Message\AMQPMessage;
+require_once __DIR__ . '/../vendor/autoload.php';
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
 
-  $HOST = getenv('MB_HOST');
-  $USER = getenv('MB_USER');
-  $PASS = getenv('MB_PASS');
+class Broker {
+    
+  public static function notify($queue, $obj) {
 
-  class Broker {
-      public function notify($queue, $obj) {
-        $connection = new AMQPStreamConnection($HOST, 5672, $USER, $PASS);
-        $channel = $this->connection->channel();
+    $HOST = env('MB_HOST');
+    $USER = env('MB_USER');
+    $PASS = env('MB_PASS');
 
-        $channel->queue_declare($queue, false, false, false, false);
+    $connection = new AMQPStreamConnection($HOST, 5672, $USER, $PASS, $USER);
+    $channel = $connection->channel();
 
-        $msg = new AMQPMessage(json_encode($obj));
-        $channel->basic_publish($msg, '', $queue);
+    $channel->queue_declare($queue, false, false, false, false);
 
-        echo "[PUBLISHER] - published $obj";
+    $msg = new AMQPMessage(json_encode($obj));
+    $channel->basic_publish($msg, '', $queue);
 
-        $connection->close();
-        $channel->close();
-      }
+    echo "[PUBLISHER] - published " . json_encode($obj);
+
+    $connection->close();
+    $channel->close();
   }
+
+}
 
 ?>
 
