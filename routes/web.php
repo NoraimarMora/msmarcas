@@ -12,16 +12,18 @@
 */
 use Illuminate\Support\Facades\DB;
 
-$router->get('/', function () use ($router) {
-    return "Microservicio Marcas";
-});
+$router->group(['prefix' => '/'], function () use ($router) {
+    $router->get('/', function () {
+        return "Microservicio Marcas";
+    });
 
-$router->get('/liveness', function () use ($router) {
-    return "Microservicio Marcas";
-});
+    $router->get('/liveness', function () {
+        return "Microservicio Marcas";
+    });
 
-$router->get('/readiness', function () use ($router) {
-    return DB::table('migrations')->get();
+    $router->get('/readiness', function () {
+        return DB::table('migrations')->get();
+    });
 });
 
 $router->group(['prefix' => 'marcas'], function () use ($router) {
