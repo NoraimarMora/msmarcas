@@ -17,7 +17,7 @@ class Broker {
     $connection = new AMQPStreamConnection($HOST, 5672, $USER, $PASS, $USER);
     $channel = $connection->channel();
 
-    $channel->queue_declare($queue, false, true, false, false);
+    $channel->queue_declare($queue, false, true, false, false); 
 
     $msg = new AMQPMessage(json_encode($obj));
     $channel->basic_publish($msg, '', $queue);
